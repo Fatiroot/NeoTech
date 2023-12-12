@@ -10,6 +10,6 @@ include __DIR__ .'/../../database/connexion.php';
     <title>Document</title>
 </head>
 <body>
-    hi
+sdfg
 </body>
 </html>
