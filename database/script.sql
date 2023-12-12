@@ -1,0 +1,17 @@
+CREATE DATABASE NeoTech;
+
+-- User Table
+CREATE TABLE `user` (
+    id INT PRIMARY KEY AUTO_INCREMENT ,
+    name VARCHAR (255) NOT NULL UNIQUE,
+    email VARCHAR (255) NOT NULL,
+    password VARCHAR(255)NOT NULL
+
+) ;
+-- Role Table
+CREATE TABLE role (
+    id INT  PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR (255) NOT NULL UNIQUE
+    
+
+) ;
