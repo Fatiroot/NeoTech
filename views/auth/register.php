@@ -1,23 +1,7 @@
 <?php
 session_start();
 
-include __DIR__ .'/../../database/connexion.php';
-
-// include __DIR__ .'/../../controllers/auth/register.php';
-
-// $register = new Register();
-
-// if(isset($_POST['submit'])){
-//   $result = $register->registration($_POST['name'],$_POST['email'],$_POST['password'],$_POST['c_password']);
-//   if($result==1){
-//     echo "registration successful";
-//   }
-//   elseif ($result==10) {
-//     echo "username or emailhas already taken";
-//     }elseif($result==1000){
-//       echo "password wrong";
-//   }
-// }
+// include __DIR__ .'/../../database/connexion.php';
 
 ?>
 
@@ -52,7 +36,7 @@ include __DIR__ .'/../../database/connexion.php';
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example3cg">Your Email</label>
                   <input type="email" name='email' id="form3Example3cg" class="form-control form-control-lg" />
-                  <span><?= isset($_SESSION['error']) ? $_SESSION['error']  : '' ; $_SESSION['error'] = ''; ?></span>
+                  <span class='text-danger'><?= isset($_SESSION['email']) ? $_SESSION['email']  : '' ; $_SESSION['email'] = ''; ?></span>
 
                 </div>
 
@@ -64,17 +48,18 @@ include __DIR__ .'/../../database/connexion.php';
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example4cdg">Repeat your password</label>
                   <input type="password" name='c_password' id="form3Example4cdg" class="form-control form-control-lg" />
-                  <span><?= isset($_SESSION['error']) ? $_SESSION['error']  : '' ; $_SESSION['error'] = ''; ?></span>
+                  <span class='text-danger'><?= isset($_SESSION['email']) ? $_SESSION['email']  : '' ; $_SESSION['password'] = ''; ?></span>
+
+                  
 
                 </div>
-                <span><?= isset($_SESSION['error']) ? $_SESSION['error']  : '' ; $_SESSION['error'] = ''; ?></span>
-
+                <span class='text-danger'><?= isset($_SESSION['error']) ? $_SESSION['error']  : '' ; $_SESSION['eroor'] = ''; ?></span>
 
                 <div class="d-flex justify-content-center">
-                  <button   name='submit' class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                  <button   name='register' class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
                 </div>
 
-                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
+                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="login.php"
                     class="fw-bold text-body"><u>Login here</u></a></p>
 
               </form>

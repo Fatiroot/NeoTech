@@ -1,51 +1,82 @@
 <?php
 session_start();
-include __DIR__ .'/../../database/connexion.php';
+include __DIR__ . '/../../model/user.php';
 
-class Register {
-    private $database;
-
-    public function __construct() {
-        $db = new Database();
-        $this->database = $db->Connection();
-    }
+class AuthController {
     
-    public function registration($name, $email, $password, $confirmpassword) {
-        if (empty($name) || empty($email) || empty($password) || empty($confirmpassword)) {
-            $_SESSION['error']= 'name, email, and password are required';
+    public function register($name, $email, $password, $confirmPassword) {
+        $error = '';
+        
+        if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
+            $error = 'Name, email, and password are required';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] ='invalid email';
+            $error = 'Invalid email';
         } else {
-            $userExist = "SELECT * FROM `user` WHERE `name`= '$name' OR `email`='$email'";
-            $Existresult = mysqli_query($this->database, $userExist);
-
-            if (mysqli_num_rows($Existresult) > 0) {
-                $_SESSION['error'] = 'username or email has already been taken';
+            $user = new User($name, $email, null, null);
+            $check = $user->getUserByEmailName();
+            if ($check->num_rows > 0) {
+                $error = 'Username or email has already been taken';
+            } elseif ($password !== $confirmPassword) {
+                $error = 'Passwords do not match';
             } else {
-                if ($password == $confirmpassword) {
-                    $insertUser = "INSERT INTO `user`(`name`, `email`, `password`) VALUES (?, ?, ?)";
-                    $stmt_insert = mysqli_prepare($this->database, $insertUser);
-                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                    mysqli_stmt_bind_param($stmt_insert, "sss", $name, $email, $hashed_password);
-                    $insert_result = mysqli_stmt_execute($stmt_insert);
-                    return 1; // Enregistrement réussi
-                } else {
-                    $_SESSION['error'] ='passwords do not match';
-                }
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $user = new User($name, $email, $hashedPassword, 2);
+                $user->insertUser();
+                header("Location: ../../views/auth/login.php");
+                exit();
             }
         }
+        
+        $_SESSION['error'] = $error;
+        header("Location: ../../views/auth/register.php");
+        exit();
     }
+    
+    public function login($email, $password) {
+        $user = new User(null, $email, null, null);
+        $result = $user->getUserByEmailName();
+        
+        if ($result->num_rows > 0) {
+            $userData = $result->fetch_assoc();
+            if (password_verify($password, $userData['password'])) {
+                $_SESSION['user_id'] = $userData['id']; 
+                $_SESSION['role'] = $userData['role_id'];
+                if ($_SESSION['role'] == 1) {
+                    header("Location: ../../views/admin/dashboard.php");
+                    exit();
+                } else {
+                    header('Location: ../../views/user/dashboard.php');
+                    exit();
+                }
+            } else {
+                $_SESSION['error'] = 'Incorrect password';
+            }
+        } else {
+            $_SESSION['error'] = 'User not found';
+        }
+        header("Location: ../../views/auth/login.php");
+        exit();
+    }
+    
+        public function logout() { 
+            session_destroy(); // Détruit la session actuelle
+            header("Location: ../../views/auth/login.php");
+            exit();
+        }
+    
+    
 }
 
-if (isset($_POST['submit'])) {
-    $register = new Register();
-    $result = $register->registration($_POST['name'], $_POST['email'], $_POST['password'], $_POST['c_password']);
-    
-    if ($result === 1) {
-        header('Location: ../../views/auth/login.php');
-        exit(); 
-    } else {
-        header('Location: ../../views/auth/register.php');
-    }
+if (isset($_POST['register'])) {
+    $register = new AuthController();
+    $register->register($_POST['name'], $_POST['email'], $_POST['password'], $_POST['c_password']);
 }
+
+if (isset($_POST['login'])) {
+    $loginController = new AuthController();
+    $loginController->login($_POST['email'], $_POST['password']);
+}
+
+$authController = new AuthController();
+$authController->logout();
 ?>

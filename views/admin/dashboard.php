@@ -1,4 +1,8 @@
 <?php
+
+session_start();
+
+
 include __DIR__ .'/../../database/connexion.php';
 
 ?>
@@ -11,5 +15,7 @@ include __DIR__ .'/../../database/connexion.php';
 </head>
 <body>
 sdfg
+<a href="../../controllers/auth/register.php">Déconnexion</a>
+
 </body>
 </html>
