@@ -36,7 +36,6 @@ session_start();
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example3cg">Your Email</label>
                   <input type="email" name='email' id="form3Example3cg" class="form-control form-control-lg" />
-                  <span class='text-danger'><?= isset($_SESSION['email']) ? $_SESSION['email']  : '' ; $_SESSION['email'] = ''; ?></span>
 
                 </div>
 
@@ -48,7 +47,6 @@ session_start();
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example4cdg">Repeat your password</label>
                   <input type="password" name='c_password' id="form3Example4cdg" class="form-control form-control-lg" />
-                  <span class='text-danger'><?= isset($_SESSION['email']) ? $_SESSION['email']  : '' ; $_SESSION['password'] = ''; ?></span>
 
                   
 

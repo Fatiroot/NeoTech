@@ -17,7 +17,7 @@ class AuthController {
             if ($check->num_rows > 0) {
                 $error = 'Username or email has already been taken';
             } elseif ($password !== $confirmPassword) {
-                $error = 'Passwords do not match';
+                $_SESSION['error'] = 'Passwords do not match';
             } else {
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                 $user->insertUser();
@@ -32,6 +32,7 @@ class AuthController {
     }
     
     public function login($email, $password) {
+        $error = '';
         $user = new User(null, $email, null, null);
         $result = $user->getUserByEmailName();
         
@@ -48,11 +49,12 @@ class AuthController {
                     exit();
                 }
             } else {
-                $_SESSION['error'] = 'Incorrect password';
+                $error = 'Incorrect password';
             }
         } else {
-            $_SESSION['error'] = 'User not found';
+            $error = 'User not found';
         }
+        $_SESSION['error'] = $error;
         header("Location: ../../views/auth/login.php");
         exit();
     }

@@ -34,8 +34,6 @@ class User {
     public function getUsers(){
         $select = "SELECT * FROM `user`";
         $result = mysqli_query($this->database, $select);
-
-
         return $result;
 
     }
