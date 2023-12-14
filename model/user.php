@@ -30,5 +30,14 @@ class User {
         $result = mysqli_query($this->database, $query);
         return $result;
     }
+
+    public function getUsers(){
+        $select = "SELECT * FROM `user`";
+        $result = mysqli_query($this->database, $select);
+
+
+        return $result;
+
+    }
 }
 ?>

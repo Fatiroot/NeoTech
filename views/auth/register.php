@@ -26,7 +26,7 @@ session_start();
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-              <form method="post" action="../../controllers/auth/register.php">
+              <form method="post" action="../../controllers/auth/AuthController.php">
 
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1cg">Your Name</label>

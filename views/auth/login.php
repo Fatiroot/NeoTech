@@ -13,7 +13,7 @@ session_start();
 </head>
 <body>
     
-<form method='post' action='../../controllers/auth/register.php'>
+<form method='post' action='../../controllers/auth/AuthController.php'>
   <!-- Email input -->
   <div class="form-outline mb-4">
     <input type="email" id="form2Example1"  name='email' class="form-control" />

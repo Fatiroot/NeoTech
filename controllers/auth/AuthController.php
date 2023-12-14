@@ -1,6 +1,6 @@
 <?php
 session_start();
-include __DIR__ . '/../../model/user.php';
+include __DIR__ . '/../../model/User.php';
 
 class AuthController {
     
@@ -12,7 +12,7 @@ class AuthController {
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Invalid email';
         } else {
-            $user = new User($name, $email, null, null);
+            $user = new User($name, $email, $hashedPassword, 2);
             $check = $user->getUserByEmailName();
             if ($check->num_rows > 0) {
                 $error = 'Username or email has already been taken';
@@ -20,7 +20,6 @@ class AuthController {
                 $error = 'Passwords do not match';
             } else {
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $user = new User($name, $email, $hashedPassword, 2);
                 $user->insertUser();
                 header("Location: ../../views/auth/login.php");
                 exit();
@@ -58,8 +57,8 @@ class AuthController {
         exit();
     }
     
-        public function logout() { 
-            session_destroy(); // Détruit la session actuelle
+     public function logout() { 
+            session_destroy(); 
             header("Location: ../../views/auth/login.php");
             exit();
         }
