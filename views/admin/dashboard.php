@@ -3,7 +3,14 @@
 session_start();
 
 
-include __DIR__ .'/../../database/connexion.php';
+// include __DIR__ .'/../../database/connexion.php';
+include __DIR__ . '/../../model/User.php';
+$name = "";
+$email = "";
+$password = "";
+$role = "";
+
+
 
 ?>
 <!DOCTYPE html>
@@ -26,10 +33,22 @@ include __DIR__ .'/../../database/connexion.php';
     </tr>
   </thead>
   <tbody>
+  <?php
+    $user = new user($name,$email,$password,$role);
+     $all = $user->getUsers();
+    if ($all) {
+        while ($row = mysqli_fetch_assoc($all)) {
+            ?>
     <tr>
-      <td>1</td>
-      <td>Mark</td>
-      <td>Otto</td>
+    <td>
+          <?= $row['name'] ?>
+      </td>
+      <td>
+          <?= $row['email'] ?>
+      </td>
+      <td>
+          <?= $row['role_id'] ?>
+      </td>
       <td>
         <div>
         <a href=""><i class="fa-solid fa-pen"></i></a>
@@ -37,6 +56,10 @@ include __DIR__ .'/../../database/connexion.php';
         </div>
       </td>
     </tr>
+    <?php
+        }
+        }
+       ?>
   </tbody>
 </table>
 <a href="../../controllers/auth/AuthController.php">Déconnexion</a>

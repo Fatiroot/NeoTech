@@ -64,9 +64,10 @@ class AuthController {
             header("Location: ../../views/auth/login.php");
             exit();
         }
-    
+       
     
 }
+
 
 if (isset($_POST['register'])) {
     $register = new AuthController();

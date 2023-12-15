@@ -68,12 +68,8 @@ class User {
     public function getUsers(){
         $query = "SELECT * FROM `user`";
         $result = mysqli_query($this->database,  $query);
-        $users = array();
-        while ($userData = $result->fetch_assoc()) {
-            $users[] = new User($userData['name'], $userData['email'], $userData['password'], $userData['role']);
-        }
-        return $users;
-
+        return $result;
     }
 }
+
 ?>
