@@ -42,4 +42,4 @@ include __DIR__ .'/../../database/connexion.php';
 <a href="../../controllers/auth/AuthController.php">Déconnexion</a>
 
 </body>
-</html>
+</html>                                                                                                                                                                                                                                                                             `

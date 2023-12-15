@@ -3,10 +3,10 @@
 include '../../database/connexion.php';
 class User {
     protected $database;
-    protected $name;
-    protected $email;
-    protected $password;
-    protected $role;
+    private $name;
+    private $email;
+    private $password;
+    private $role;
 
     public function __construct($name,$email,$password,$role) {
         $db = new Database();
@@ -17,6 +17,40 @@ class User {
         $this->role=$role;
     }
 
+
+       // Setters
+       public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    public function setRole($role) {
+        $this->role = $role;
+    }
+
+    // Getters
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getRole() {
+        return $this->role;
+    }
 
     public function getUserByEmailName(){
         $select = "SELECT * FROM `user` WHERE `email` = '$this->email' OR `name`='$this->name'";
@@ -32,9 +66,13 @@ class User {
     }
 
     public function getUsers(){
-        $select = "SELECT * FROM `user`";
-        $result = mysqli_query($this->database, $select);
-        return $result;
+        $query = "SELECT * FROM `user`";
+        $result = mysqli_query($this->database,  $query);
+        $users = array();
+        while ($userData = $result->fetch_assoc()) {
+            $users[] = new User($userData['name'], $userData['email'], $userData['password'], $userData['role']);
+        }
+        return $users;
 
     }
 }

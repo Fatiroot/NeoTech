@@ -17,7 +17,7 @@ class AuthController {
             if ($check->num_rows > 0) {
                 $error = 'Username or email has already been taken';
             } elseif ($password !== $confirmPassword) {
-                $_SESSION['error'] = 'Passwords do not match';
+                $error  = 'Passwords do not match';
             } else {
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                 $user->insertUser();
@@ -73,10 +73,13 @@ if (isset($_POST['register'])) {
     $register->register($_POST['name'], $_POST['email'], $_POST['password'], $_POST['c_password']);
 }
 
-if (isset($_POST['login'])) {
+if (isset($_POST['login'])){
     $loginController = new AuthController();
     $loginController->login($_POST['email'], $_POST['password']);
 }
+
+
+
 
 $authController = new AuthController();
 $authController->logout();
